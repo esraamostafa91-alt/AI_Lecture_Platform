@@ -69,7 +69,7 @@ def summarize_long_text(text, chunk_size=1000):
     return "\n".join(summaries)
 
 # -----------------------------
-# توليد Quiz
+# توليد Quiz مبسط
 # -----------------------------
 def generate_quiz_long_text(text, chunk_size=1000):
     if not text.strip():
