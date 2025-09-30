@@ -5,15 +5,11 @@ import boto3
 import os
 import re
 
-# -----------------------------
 # Summarizer & Quiz
-# -----------------------------
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 question_generator = pipeline("text2text-generation", model="google/flan-t5-small")
 
-# -----------------------------
 # Amazon Polly
-# -----------------------------
 polly_client = boto3.client('polly', region_name='us-east-1')
 
 def text_to_speech(text, filename, voice="Zeina", chunk_size=1500):
@@ -39,9 +35,6 @@ def split_text_by_language(text):
             english += line + "\n"
     return arabic.strip(), english.strip()
 
-# -----------------------------
-# PDF Extraction
-# -----------------------------
 def extract_text(pdf_file):
     text = ""
     with pdfplumber.open(pdf_file) as pdf:
@@ -51,9 +44,6 @@ def extract_text(pdf_file):
                 text += t + "\n"
     return text
 
-# -----------------------------
-# تلخيص النصوص الطويلة
-# -----------------------------
 def summarize_long_text(text, chunk_size=1000):
     if not text.strip():
         return "❌ لم يتم استخراج أي نص من الـ PDF"
@@ -68,9 +58,6 @@ def summarize_long_text(text, chunk_size=1000):
             summaries.append(f"❌ خطأ أثناء التلخيص: {str(e)}")
     return "\n".join(summaries)
 
-# -----------------------------
-# توليد Quiz مبسط
-# -----------------------------
 def generate_quiz_long_text(text, chunk_size=1000):
     if not text.strip():
         return "❌ لم يتم استخراج أي نص من الـ PDF"
@@ -85,9 +72,7 @@ def generate_quiz_long_text(text, chunk_size=1000):
             all_quiz.append(f"❌ خطأ أثناء توليد Quiz: {str(e)}")
     return "\n".join(all_quiz)
 
-# -----------------------------
 # Streamlit UI
-# -----------------------------
 st.title("AI Lecture Summarizer + Podcast + Quiz")
 uploaded_file = st.file_uploader("Upload PDF", type="pdf")
 
